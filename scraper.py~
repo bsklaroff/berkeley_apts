@@ -1,0 +1,2 @@
+import urllib2
+f = urllib2.open('http://sfbay.craigslist.org/search/apa/eby?nh=48&nh=49')
