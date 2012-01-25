@@ -24,7 +24,22 @@ def parse_berk():
         parse_apt(url_str)
         
 def parse_apt(url_str):
-    print url_str    
+    f = urllib2.urlopen(url_str)
+    post_title = ''
+    post_time = ''
+    while post_title == '':
+        line = f.readline()
+        if line.find('<h2>') != -1:
+            post_title_split = line[4:].split('(berkeley')
+            i = 0
+            while i < len(post_title_split) - 1:
+                post_title += post_title_split[i]
+                i += 1
+            break
+    post_title = post_title.strip()
+    if len(post_title) < 2:
+        return
+    print post_title
 
 if __name__ == '__main__':
     parse_berk()
