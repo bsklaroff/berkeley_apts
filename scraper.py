@@ -26,7 +26,6 @@ def parse_berk():
 def parse_apt(url_str):
     f = urllib2.urlopen(url_str)
     post_title = ''
-    post_time = ''
     while post_title == '':
         line = f.readline()
         if line.find('<h2>') != -1:
@@ -39,7 +38,24 @@ def parse_apt(url_str):
     post_title = post_title.strip()
     if len(post_title) < 2:
         return
-    print post_title
+    f.readline()
+    post_time = f.readline().split('<br>')[0]
+
+    xstreet0 = ''
+    xstreet1 = ''
+    city = ''
+    region = ''
+    for line in f:
+        if line.find('<!-- CLTAG') != -1:
+            if line.find('xstreet0=') != -1:
+                xstreet0 = line.split('xstreet0=')[1].split('-->')[0].strip()
+            elif line.find('xstreet1=') != -1:
+                xstreet1 = line.split('xstreet1=')[1].split('-->')[0].strip()
+            elif line.find('city=') != -1:
+                city = line.split('city=')[1].split('-->')[0].strip()
+            elif line.find('region=') != -1:
+                region = line.split('region=')[1].split('-->')[0].strip()
+    print xstreet0, xstreet1, city, region
 
 if __name__ == '__main__':
     parse_berk()
